@@ -7,7 +7,7 @@ import threading
 char=0
 personagem_x=1
 personagem_y=1
-boneco=["  O  "," <|\ ","  |  "," / \ ","|   |"]
+boneco=["  O"," <|\ ","  |"," / \ ","|   |"]
 
 cenario_luta=["_______________________________________________________________________________","|                           _______________________                           |","|                          |  |  |  |  |  |  |  |  |                          |","|                          |__|__|__|__|__|__|__|__|                          |","|                          |  |  |  |  |  |  |  |  |                          |","|        |                 |__|__|__|__|__|__|__|__|                 |        |","|       /|_                                                         _|\       |","|     /  |#            _________________________________            #|  \     |","|   /                 -----------------------------------                 \   |","| /                 _|___________________________________|_                 \ |","| |                -----------------------------------------                | |","| |   ;`|        _|_________________________________________|_        |`:   | |","| |  ;.#|       -----------------------------------------------       |#`:  | |","| | :.##|     _|_______________________________________________|_     |##`: | |","|_|_:###|____:---------------------------------------------------:____|###:_|_|","|_|_:###|_____________________________________________________________|###:_|_|"]
 
@@ -53,14 +53,25 @@ def cenarioPrintado():
     global char, personagem_x, personagem_y, boneco, cenario_luta
     while 1:
         os.system('cls')
-        desenhar=cenario_luta
-        y=0
-        for n in range(len(boneco)):
-            x=0
-            for x in range(len(boneco[len(boneco)-1])):
-                desenhar[personagem_x+y][personagem_y+x]=boneco[len(boneco)-1][x]
-                y+=1
-        print(str(desenhar))
+        contador=0
+        i=0
+        for n in cenario_luta:
+            e=0
+            f=0
+            while e<len(cenario_luta[i]):
+                if i-contador==personagem_y and e-f==personagem_x:
+                    if boneco[0+contador][f]==' ':
+                        print(cenario_luta[i][e],end='')
+                    else:
+                        print(boneco[0+contador][f],end='')
+                    f+=1
+                else:
+                    print(cenario_luta[i][e],end='')
+                e+=1
+            if len(boneco)>contador and personagem_y==i-contador:
+                contador+=1
+            i+=1
+            print('\n',end='')
 
 
 try:
