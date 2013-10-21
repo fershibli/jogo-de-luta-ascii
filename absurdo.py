@@ -13,9 +13,19 @@ vida_total_alvo=vida_alvo
 vida_total_personagem=vida_personagem
 sentido=True
 da_vida=False
+ataque_personagem=8001
+defesa_personagem=8002
+ataque_alvo=6
+defesa_alvo=5
 #numpy
 inimigo_movimento=[False,False,False,False,False,False,False,False]
 #                   [0]A  [1]D [2]W  [3]S   [4]H  [5]J  [6]K  [7]L
+
+def maiorQueumINT(numero):
+    if numero<1: numero=1
+    else: numero=int(numero)
+    return numero
+
 def leituraTeclado():
     global char
     time.sleep(0.01)
@@ -23,7 +33,7 @@ def leituraTeclado():
         char = msvcrt.getch()
 
 def inteligenciaInimigo():
-    global inimigo_movimento, vida_alvo, alvo_y, posicao_y, alvo_x, posicao_x, vida_total_alvo
+    global inimigo_movimento, vida_alvo, alvo_y, posicao_y, alvo_x, posicao_x, vida_total_alvo, ataque_alvo, defesa_alvo, ataque_personagem, defesa_personagem
     time.sleep(0.05)
     estrategia=[False, False]
     intercala=5
@@ -73,7 +83,7 @@ def inteligenciaInimigo():
             intercala=sorte
 
 def movimentoInimigo():
-    global umtreco, alvo_y, alvo_x, inimigo_movimento, vida_personagem
+    global umtreco, alvo_y, alvo_x, inimigo_movimento, vida_personagem, ataque_alvo, defesa_alvo, ataque_personagem, defesa_personagem
     time.sleep(0.06)
     while vida_personagem>0 and vida_alvo>0:
         time.sleep(0.08)
@@ -94,77 +104,85 @@ def movimentoInimigo():
             if (posicao_y!=alvo_y or posicao_y==alvo_y and posicao_x!=alvo_x-5):
                 alvo_x +=1
         elif(inimigo_movimento[4]==True):
+            defesa_alvo=defesa_alvo*3
             if da_vida==False:
                 umtreco=[[' ',' ','O'],[' ',' ','|','V'],[' ',' ','|','/'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
                 time.sleep(0.05)
                 umtreco=[[' ',' ','O','|'],[' ',' ','|','-','-'],[' ',' ','|'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=3
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=maiorQueumINT(0.3*ataque_alvo-0.5*(defesa_personagem))
                 time.sleep(0.09)
                 umtreco=[[' ',' ','O','.','|'],[' ',' ','|','/'],[' ',' ','|'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=3
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=maiorQueumINT(0.3*ataque_alvo-0.5*(defesa_personagem))
                 time.sleep(0.09)
                 umtreco=[[' ',' ','O'],[' ','<','|','\\',' '],[' ',' ','|'],[' ','/',' ','\\',' '],['|',' ',' ',' ','|']]
             else:
                 umtreco=[[' ',' ','O'],[' ','V','|','\\',],[' ',' ','|','`'],[' ','/','|'],['|',' ',' ','\\']]
                 time.sleep(0.05)
                 umtreco=[[' ','|','O'],['-','-','|',' '],[' ',' ','|'],[' ','/','|'],['|',' ',' ','\\']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=3
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=maiorQueumINT(0.3*ataque_alvo-0.5*(defesa_personagem))
                 time.sleep(0.09)
                 umtreco=[['|','.','O'],[' ','\\','|'],[' ',' ','|'],[' ','/','|'],['|',' ',' ','\\']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=3
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=maiorQueumINT(0.3*ataque_alvo-0.5*(defesa_personagem))
                 time.sleep(0.09)
                 umtreco=[[' ',' ','O'],[' ','/','|','>'],[' ',' ','|'],[' ','/',' ','\\'],['|',' ',' ',' ','|']]
+            defesa_alvo=int(defesa_alvo/3)
         elif(inimigo_movimento[5]==True):
+            defesa_alvo=defesa_alvo*2
             if da_vida==False:
                 umtreco=[[' ',' ','O'],[' ','/','|','V'],[' ','`','|'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
                 time.sleep(0.05)
                 umtreco=[[' ',' ','O','_','_'],[' ','<','|','-','-'],[' ',' ','|'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=5
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=0.5*ataque_alvo-0.5*(defesa_personagem)
                 time.sleep(0.09)
                 umtreco=[[' ',' ','O'],[' ','`','|','=','='],[' ',' ','|'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=5
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=0.5*ataque_alvo-0.5*(defesa_personagem)
                 time.sleep(0.09)
                 umtreco=[[' ',' ','O'],[' ','<','|','\\',' '],[' ',' ','|'],[' ','/',' ','\\',' '],['|',' ',' ',' ','|']]
             else:
                 umtreco=[[' ',' ','O'],[' ','V','|','\\',],[' ',' ','|','`'],[' ','/','|'],['|',' ',' ','\\']]
                 time.sleep(0.05)
                 umtreco=[['_','_','O'],['-','-','|','>'],[' ',' ','|'],[' ','/','|'],['|',' ',' ','\\']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=5
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=maiorQueumINT(0.5*ataque_alvo-0.5*(defesa_personagem))
                 time.sleep(0.09)
                 umtreco=[[' ',' ','O'],['=','=','|','`'],[' ',' ','|'],[' ','/','|'],['|',' ',' ','\\']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=5
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=maiorQueumINT(0.5*ataque_alvo-0.5*(defesa_personagem))
                 time.sleep(0.09)
                 umtreco=[[' ',' ','O'],[' ','/','|','>'],[' ',' ','|'],[' ','/',' ','\\'],['|',' ',' ',' ','|']]
+            defesa_alvo=int(defesa_alvo/2)
         elif(inimigo_movimento[6]==True):
+            defesa_alvo=int(defesa_alvo/3)
             if da_vida==False:
                 umtreco=[[' ',' ','O'],[' ','<','|','\\'],[' ',' ','|','_'],[' ',' ','|',' ','/'],[' ','/',' ']]
                 time.sleep(0.05)
                 umtreco=[[' ',' ','O'],[' ','<','|','-',' ','/'],[' ',' ','|','/'],[' ',' ','|'],[' ','/',' ']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=15
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=maiorQueumINT(2.5*ataque_alvo-0.5*(defesa_personagem))
                 time.sleep(0.18)
                 umtreco=[[' ',' ','O'],[' ','<','|','\\',' '],[' ',' ','|'],[' ','/',' ','\\',' '],['|',' ',' ',' ','|']]
             else:
                 umtreco=[[' ',' ',' ','O'],[' ',' ','/','|','>'],[' ',' ','_','|'],[' ','\\',' ','|'],[' ',' ',' ',' ','\\']]
                 time.sleep(0.05)
                 umtreco=[[' ',' ',' ','O'],['\\',' ','-','|','>'],[' ',' ','\\','|'],[' ',' ',' ','|'],[' ',' ',' ',' ','\\']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=15
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=maiorQueumINT(2.5*ataque_alvo-0.5*(defesa_personagem))
                 time.sleep(0.18)
                 umtreco=[[' ',' ','O'],[' ','/','|','>'],[' ',' ','|'],[' ','/',' ','\\'],['|',' ',' ',' ','|']]
+            defesa_alvo=defesa_alvo*3
         elif(inimigo_movimento[7]==True):
+            defesa_alvo=int(defesa_alvo/2)
             if da_vida==False:
                 umtreco=[[' ',' ','O'],[' ','/','|','V'],[' ',' ','|','_'],[' ','/',' ',' ','|'],['|']]
                 time.sleep(0.05)
                 umtreco=[['O','_','|'],['<','\\'],[' ',' ','\\','_','_','_','_'],[' ','/'],['|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=25
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=maiorQueumINT(1.5*ataque_alvo-0.5*(defesa_personagem))
                 time.sleep(0.18)
                 umtreco=[[' ',' ','O'],[' ','<','|','\\',' '],[' ',' ','|'],[' ','/',' ','\\',' '],['|',' ',' ',' ','|']]
             else:
                 umtreco=[[' ',' ',' ','O'],[' ',' ','V','|','\\'],[' ',' ','_','|'],[' ','|',' ',' ','\\'],[' ',' ',' ',' ',' ','|']]
                 time.sleep(0.05)
                 umtreco=[[' ',' ',' ',' ','|','_','O'],[' ',' ',' ',' ',' ','/','>'],['_','_','_','_','/'],[' ',' ',' ',' ','\\'],[' ',' ',' ',' ',' ','|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=25
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_personagem-=maiorQueumINT(1.5*ataque_alvo-0.5*(defesa_personagem))
                 time.sleep(0.18)
                 umtreco=[[' ',' ','O'],[' ','/','|','>'],[' ',' ','|'],[' ','/',' ','\\'],['|',' ',' ',' ','|']]
+            defesa_alvo=defesa_alvo*2
         if(inimigo_movimento[0]==True or inimigo_movimento[1]==True):
             if alvo_x<posicao_x:
                 umtreco=[[' ',' ','O'],[' ','/','|','\\','.'],[' ','`','|'],['_','/',' ','\\'],[' ',' ',' ',' ','|']]
@@ -233,7 +251,7 @@ def animacaoMovimento():
                 sentido=False
 
 def golpesAnimacao():
-    global char, boneco, posicao_x, posicao_y, sentido, vida_alvo, alvo_x, alvo_y
+    global char, boneco, posicao_x, posicao_y, sentido, vida_alvo, alvo_x, alvo_y, ataque_alvo, defesa_alvo, ataque_personagem, defesa_personagem
     time.sleep(0.06)
     ja_deu_cotovelo=False
     ja_deu_soco=False
@@ -241,89 +259,97 @@ def golpesAnimacao():
     ja_deu_bica=False
     while vida_personagem>0 and vida_alvo>0:
         if str(char)=='h' and ja_deu_cotovelo==False:
+            defesa_personagem=defesa_personagem*3
             if sentido==True:
                 boneco=[[' ',' ','O'],[' ',' ','|','V'],[' ',' ','|','/'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
                 time.sleep(0.05)
                 boneco=[[' ',' ','O','|'],[' ',' ','|','-','-'],[' ',' ','|'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=3
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(0.3*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.09)
                 boneco=[[' ',' ','O','.','|'],[' ',' ','|','/'],[' ',' ','|'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=3
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(0.3*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.09)
                 boneco=[[' ',' ','O'],[' ','<','|','\\',' '],[' ',' ','|'],[' ','/',' ','\\',' '],['|',' ',' ',' ','|']]
             else:
                 boneco=[[' ',' ','O'],[' ','V','|','\\',],[' ',' ','|','`'],[' ','/','|'],['|',' ',' ','\\']]
                 time.sleep(0.05)
                 boneco=[[' ','|','O'],['-','-','|',' '],[' ',' ','|'],[' ','/','|'],['|',' ',' ','\\']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=3
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(0.3*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.09)
                 boneco=[['|','.','O'],[' ','\\','|'],[' ',' ','|'],[' ','/','|'],['|',' ',' ','\\']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=3
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(0.3*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.09)
                 boneco=[[' ',' ','O'],[' ','/','|','>'],[' ',' ','|'],[' ','/',' ','\\'],['|',' ',' ',' ','|']]
+            defesa_personagem=int(defesa_personagem/3)
             ja_deu_cotovelo=True
             ja_deu_soco=False
             ja_deu_chute=False
             ja_deu_bica=False
         if str(char)=='j' and ja_deu_soco==False:
+            defesa_personagem=defesa_personagem*2
             if sentido==True:
                 boneco=[[' ',' ','O'],[' ','/','|','V'],[' ','`','|'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
                 time.sleep(0.05)
                 boneco=[[' ',' ','O','_','_'],[' ','<','|','-','-'],[' ',' ','|'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=5
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(0.5*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.09)
                 boneco=[[' ',' ','O'],[' ','`','|','=','='],[' ',' ','|'],[' ',' ','|','\\'],[' ','/',' ',' ','|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=5
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(0.5*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.09)
                 boneco=[[' ',' ','O'],[' ','<','|','\\',' '],[' ',' ','|'],[' ','/',' ','\\',' '],['|',' ',' ',' ','|']]
             else:
                 boneco=[[' ',' ','O'],[' ','V','|','\\',],[' ',' ','|','`'],[' ','/','|'],['|',' ',' ','\\']]
                 time.sleep(0.05)
                 boneco=[['_','_','O'],['-','-','|','>'],[' ',' ','|'],[' ','/','|'],['|',' ',' ','\\']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=5
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(0.5*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.09)
                 boneco=[[' ',' ','O'],['=','=','|','`'],[' ',' ','|'],[' ','/','|'],['|',' ',' ','\\']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=5
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(0.5*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.09)
                 boneco=[[' ',' ','O'],[' ','/','|','>'],[' ',' ','|'],[' ','/',' ','\\'],['|',' ',' ',' ','|']]
+            defesa_personagem=int(defesa_personagem/2)
             ja_deu_cotovelo=False
             ja_deu_soco=True
             ja_deu_chute=False
             ja_deu_bica=False
-        if str(char)=='k' and ja_deu_chute==False:
+        if str(char)=='l' and ja_deu_chute==False:
+            defesa_personagem=int(defesa_personagem/3)
             if sentido==True:
                 boneco=[[' ',' ','O'],[' ','<','|','\\'],[' ',' ','|','_'],[' ',' ','|',' ','/'],[' ','/',' ']]
                 time.sleep(0.05)
                 boneco=[[' ',' ','O'],[' ','<','|','-',' ','/'],[' ',' ','|','/'],[' ',' ','|'],[' ','/',' ']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=15
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(2.5*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.18)
                 boneco=[[' ',' ','O'],[' ','<','|','\\',' '],[' ',' ','|'],[' ','/',' ','\\',' '],['|',' ',' ',' ','|']]
             else:
                 boneco=[[' ',' ',' ','O'],[' ',' ','/','|','>'],[' ',' ','_','|'],[' ','\\',' ','|'],[' ',' ',' ',' ','\\']]
                 time.sleep(0.05)
                 boneco=[[' ',' ',' ','O'],['\\',' ','-','|','>'],[' ',' ','\\','|'],[' ',' ',' ','|'],[' ',' ',' ',' ','\\']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=15
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(2.5*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.18)
                 boneco=[[' ',' ','O'],[' ','/','|','>'],[' ',' ','|'],[' ','/',' ','\\'],['|',' ',' ',' ','|']]
+            defesa_personagem=defesa_personagem*3
             ja_deu_cotovelo=False
             ja_deu_chute=True
             ja_deu_soco=False
             ja_deu_bica=False
-        if str(char)=='l' and ja_deu_bica==False:
+        if str(char)=='k' and ja_deu_bica==False:
+            defesa_personagem=int(defesa_personagem/2)
             if sentido==True:
                 boneco=[[' ',' ','O'],[' ','/','|','V'],[' ',' ','|','_'],[' ','/',' ',' ','|'],['|']]
                 time.sleep(0.05)
                 boneco=[['O','_','|'],['<','\\'],[' ',' ','\\','_','_','_','_'],[' ','/'],['|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=25
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(1.5*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.18)
                 boneco=[[' ',' ','O'],[' ','<','|','\\',' '],[' ',' ','|'],[' ','/',' ','\\',' '],['|',' ',' ',' ','|']]
             else:
                 boneco=[[' ',' ',' ','O'],[' ',' ','V','|','\\'],[' ',' ','_','|'],[' ','|',' ',' ','\\'],[' ',' ',' ',' ',' ','|']]
                 time.sleep(0.05)
                 boneco=[[' ',' ',' ',' ','|','_','O'],[' ',' ',' ',' ',' ','/','>'],['_','_','_','_','/'],[' ',' ',' ',' ','\\'],[' ',' ',' ',' ',' ','|']]
-                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=25
+                if alvo_x==posicao_x+5 and alvo_y==posicao_y or alvo_x==posicao_x-5 and alvo_y==posicao_y: vida_alvo-=maiorQueumINT(1.5*ataque_personagem-0.5*(defesa_alvo))
                 time.sleep(0.18)
                 boneco=[[' ',' ','O'],[' ','/','|','>'],[' ',' ','|'],[' ','/',' ','\\'],['|',' ',' ',' ','|']]
+            defesa_personagem=defesa_personagem*2
             ja_deu_cotovelo=False
             ja_deu_bica=True
             ja_deu_soco=False
@@ -382,6 +408,16 @@ def cenarioPrintado():
         barra_alvo="["+"-"*int(30-(vida_alvo*30/vida_total_alvo))+"|"*int(vida_alvo*30/vida_total_alvo)+"]"
         os.system('cls')
         print('_'*79+'\n'+' P1:'+str(barra_personagem)+' '*7+str(barra_alvo)+':P2\n'+cenario_texto+'\n\tUse W A S D para mover\t\tPara atacar alterne H J K L\n'+str(alvo_x)+str(posicao_x))
+
+while ataque_personagem>10:
+    print ('\nComandos:\n H : Cotovelada \t 0.6 ATK  3.00 Def\n J : Socos Alternados \t 1.0 ATK  2.00 Def\n K : Chute baixo \t 1.5 ATK  0.50 Def\n L : Chute alto \t 2.5 ATK  0.25 Def\nVoce tem direito a APENAS 10 pontos entre ataque E defesa.\nMe diga o quanto que quer em ataque, colocarei o resto em defesa:')
+    ataque_personagem=input('\n-')
+    ataque_personagem=int(ataque_personagem)
+    os.system('cls')
+defesa_personagem=10-ataque_personagem
+ataque_personagem+=1
+ataque_alvo=random.randrange(11)+1
+defesa_alvo=10-ataque_alvo
 
 try:
     thread.start_new_thread(leituraTeclado,())
