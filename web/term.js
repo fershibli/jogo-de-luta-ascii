@@ -65,7 +65,7 @@
     document.head.appendChild(s);
   });
   const wire = (c) => {
-    const code = c.peer.slice(PREFIX.length);
+    const code = c.peer.slice(PREFIX.length).toUpperCase();
     conns[code] = c;
     c.on('open', () => {
       for (const d of queued[code] || []) c.send(d);
@@ -81,13 +81,15 @@
     status.textContent = 'Abrindo uma sala no servidor...';
     try { await loadPeer(); } catch (e) { netPush({ t: 'err', m: 'não consegui carregar o PeerJS' }); return; }
     const tryOpen = () => {
-      const code = String(1000 + Math.floor(Math.random() * 9000));
+      // letters, not digits: a game may try int() on whatever it receives (the old IPs never parsed)
+      const L = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+      const code = Array.from({ length: 4 }, () => L[Math.floor(Math.random() * L.length)]).join('');
       peer = new Peer(PREFIX + code);
-      peer.on('open', () => { status.textContent = 'Sua sala: ' + code + ' (passe esse número no lugar do IP).'; netPush({ t: 'id', code }); });
+      peer.on('open', () => { status.textContent = 'Sua sala: ' + code + ' (passe esse código no lugar do IP).'; netPush({ t: 'id', code }); });
       peer.on('connection', wire);
       peer.on('error', (e) => {
         if (e.type === 'unavailable-id') { peer.destroy(); tryOpen(); }
-        else if (e.type === 'peer-unavailable') status.textContent = 'Essa sala não existe (ainda). Confira o número.';
+        else if (e.type === 'peer-unavailable') status.textContent = 'Essa sala não existe (ainda). Confira o código.';
         else status.textContent = 'Rede: ' + e.type;
       });
     };
@@ -95,7 +97,7 @@
   };
   const netSend = (to, d) => {
     if (!peer) return;
-    to = String(to).trim();
+    to = String(to).trim().toUpperCase();
     let c = conns[to];
     if (!c) { c = peer.connect(PREFIX + to, { reliable: true, serialization: 'json' }); wire(c); }
     if (c.open) c.send(d); else (queued[to] = queued[to] || []).push(d);

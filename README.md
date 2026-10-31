@@ -13,7 +13,7 @@ A two-player fighting game drawn entirely in ASCII art in the Windows console: a
 - vs. the computer: **[https://fershibli.github.io/jogo-de-luta-ascii/](https://fershibli.github.io/jogo-de-luta-ascii/)**
 - two players online: **[https://fershibli.github.io/jogo-de-luta-ascii/rede.html](https://fershibli.github.io/jogo-de-luta-ascii/rede.html)**
 
-The pages run `web/game/absurdo.py` and `web/game/absurdo_rede.py` (Python 3 copies) on Pyodide inside an xterm.js terminal. The browser has no threads, so `web/green.py` rewrites each thread function into a generator before running it: `time.sleep`, `msvcrt.getch` and `recvfrom` become yields, and a small scheduler runs the seven "threads" at the pace of the original sleeps (screen redraws are held to 30 per second). The UDP sockets are replaced by `web/netsock.py`, which sends the same messages over a WebRTC data channel (PeerJS); the "IP" the game shows and asks for is a room number. Published by `.github/workflows/pages.yml`.
+The pages run `web/game/absurdo.py` and `web/game/absurdo_rede.py` (Python 3 copies) on Pyodide inside an xterm.js terminal. The browser has no threads, so `web/green.py` rewrites each thread function into a generator before running it: `time.sleep`, `msvcrt.getch` and `recvfrom` become yields, and a small scheduler runs the seven "threads" at the pace of the original sleeps (screen redraws are held to 30 per second). The UDP sockets are replaced by `web/netsock.py`, which sends the same messages over a WebRTC data channel (PeerJS); the "IP" the game shows and asks for is a room code. Published by `.github/workflows/pages.yml`.
 
 ## Author
 

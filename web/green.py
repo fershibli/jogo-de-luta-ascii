@@ -252,8 +252,29 @@ def _ready(t):
     return False, None
 
 
+_in_pump = [0]
+
+
+def pace_clear():
+    """The main program clears the screen: hold it to FRAME like the threads."""
+    if not _threads or _in_pump[0]:
+        return
+    wait = _last_clear[0] + FRAME - time.monotonic()
+    if wait > 0:
+        sleep(wait)
+    _last_clear[0] = time.monotonic()
+
+
 def pump():
     """Runs every thread that is due once. True if any of them ran."""
+    _in_pump[0] += 1
+    try:
+        return _pump()
+    finally:
+        _in_pump[0] -= 1
+
+
+def _pump():
     for p in _pollers:
         p()
     ran = False

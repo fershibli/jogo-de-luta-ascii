@@ -1,10 +1,10 @@
 """socket module for the browser: the old games' UDP traffic travels over WebRTC.
 
 A browser cannot open UDP sockets, so the page connects the players with
-PeerJS data channels instead. Each player gets a short room number from the
+PeerJS data channels instead. Each player gets a short room code from the
 signalling server, and that number takes the place of the IP address: the
 games print "your IP" and ask for "your friend's IP" exactly as before, but
-both are room numbers now. sendto()/recvfrom() keep their old meaning, with
+both are room codes now. sendto()/recvfrom() keep their old meaning, with
 the message text as the payload. The channel is reliable and ordered, so the
 games' key-by-key lockstep does not drift the way it could over real UDP.
 """

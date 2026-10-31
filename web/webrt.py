@@ -99,10 +99,15 @@ builtins.raw_input = _input
 time.sleep = lambda s: webterm.sleep(int(max(0, s) * 1000))
 
 
+_pace_clear = None
+
+
 def _system(cmd):
     c = str(cmd).strip()
     low = c.lower()
     if low in ('cls', 'clear'):
+        if _pace_clear:
+            _pace_clear()
         sys.stdout.write('\x1b[2J\x1b[3J\x1b[H')
     elif low.startswith('color'):
         arg = (c[5:].strip() + '07')[:2].lower()
@@ -195,6 +200,8 @@ def _use_green(green):
 
     keys = {n: getattr(msvcrt, n) for n in ('getch', 'getche', 'getwch', 'getwche', 'kbhit')}
     green.install(real_sleep, wait_event, keys, builtins)
+    global _pace_clear
+    _pace_clear = green.pace_clear
     time.sleep = green.sleep
 
     def blocking(fn):
