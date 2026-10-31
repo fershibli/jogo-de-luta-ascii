@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Absurdo em rede (2013)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css">
+<style>
+  html, body { margin: 0; background: #0c0c0c; color: #c0c0c0; font: 15px/1.5 "Segoe UI", system-ui, sans-serif; }
+  main { max-width: 820px; margin: 0 auto; padding: 20px 16px; }
+  h1 { margin: 0 0 4px; font: 600 24px "Cascadia Mono", Consolas, monospace; color: #f0f0f0; }
+  p { margin: 4px 0 12px; opacity: .8; }
+  .win { border: 1px solid #3a3a3a; border-radius: 6px; overflow: hidden; box-shadow: 0 10px 30px #000a; }
+  .bar { background: #1f1f1f; padding: 6px 10px; font: 12px "Segoe UI", sans-serif; color: #ddd; }
+  #term { padding: 6px; background: #000; overflow-x: auto; }
+  #status { font: 12px monospace; opacity: .6; margin-top: 8px; }
+  a { color: #7fb8ff; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Absurdo</h1>
+  <p>A versão em rede de novembro de 2013, que mandava cada tecla por UDP na porta 20134. No navegador ela vai por WebRTC: o "IP" que o jogo mostra é o número da sua sala.</p><p>Um jogador escolhe <b>2 (Esperar)</b> e passa o número dele; o outro escolhe <b>1 (Se conectar)</b> e digita esse número quando o jogo pedir o IP do amigo.</p>
+  <div class="win"><div class="bar">C:\Python27\python.exe absurdo_rede.py</div><div id="term"></div></div>
+  <div id="status">Carregando...</div>
+  <p>Cada PC simula os dois lutadores a partir das teclas recebidas, como no original, então as posições podem se desencontrar um pouco. <a href="index.html">Versão contra o computador</a>.</p><p><a href="https://github.com/fershibli/jogo-de-luta-ascii">Código-fonte</a></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/lib/xterm.min.js"></script>
+<script>window.GAME = { main: 'absurdo_rede.py', cols: 80, rows: 26, net: 'absurdo' };</script>
+<script src="term.js"></script>
+</body>
+</html>

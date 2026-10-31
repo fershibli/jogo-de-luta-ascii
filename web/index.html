@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Absurdo (2013)</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/css/xterm.min.css">
+<style>
+  html, body { margin: 0; background: #0c0c0c; color: #c0c0c0; font: 15px/1.5 "Segoe UI", system-ui, sans-serif; }
+  main { max-width: 820px; margin: 0 auto; padding: 20px 16px; }
+  h1 { margin: 0 0 4px; font: 600 24px "Cascadia Mono", Consolas, monospace; color: #f0f0f0; }
+  p { margin: 4px 0 12px; opacity: .8; }
+  .win { border: 1px solid #3a3a3a; border-radius: 6px; overflow: hidden; box-shadow: 0 10px 30px #000a; }
+  .bar { background: #1f1f1f; padding: 6px 10px; font: 12px "Segoe UI", sans-serif; color: #ddd; }
+  #term { padding: 6px; background: #000; overflow-x: auto; }
+  #status { font: 12px monospace; opacity: .6; margin-top: 8px; }
+  a { color: #7fb8ff; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Absurdo</h1>
+  <p>Jogo de luta em ASCII feito no 1º semestre de Jogos Digitais (2013), com uma thread para cada coisa: teclado, golpes, animação, inimigo e tela. O código original roda aqui em Python via Pyodide; as threads viram tarefas cooperativas no mesmo ritmo dos <code>time.sleep</code> originais.</p><p>Escolha quanto quer de ataque (0 a 10), mova com <b>W A S D</b> e alterne <b>H J K L</b> para atacar. Quer jogar contra um amigo? <a href="rede.html">Versão em rede</a>.</p>
+  <div class="win"><div class="bar">C:\Python27\python.exe absurdo.py</div><div id="term"></div></div>
+  <div id="status">Carregando...</div>
+  <p><a href="https://github.com/fershibli/jogo-de-luta-ascii">Código-fonte</a></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@xterm/xterm@5.5.0/lib/xterm.min.js"></script>
+<script>window.GAME = { main: 'absurdo.py', cols: 80, rows: 26, net: 'absurdo' };</script>
+<script src="term.js"></script>
+</body>
+</html>

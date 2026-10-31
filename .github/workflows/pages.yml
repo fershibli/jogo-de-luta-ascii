@@ -1,0 +1,40 @@
+name: Web (GitHub Pages)
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Assemble the site
+        run: |
+          mkdir -p public
+          cp web/*.html web/*.js web/*.py public/
+          cp -r web/game public/game
+          cd public/game && find . -type f | sed 's|^\./||' | sort | python3 -c "import json,sys; print(json.dumps(sys.stdin.read().split()))" > ../manifest.json
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: public
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
